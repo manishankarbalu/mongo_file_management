@@ -1,0 +1,28 @@
+import pymongo
+import gridfs
+import os
+from bson.objectid import ObjectId
+
+MONGO_URL=os.environ.get('MONGODB_URI')
+client =pymongo.MongoClient(MONGO_URL)
+db=client.Flask
+q=db['FilesUp']
+cursor=q.find({})
+f='editorial.txt'
+for doc in cursor:
+	if doc['file_name'] == f:
+		ids=doc['ref']
+fs = gridfs.GridFS(db)
+q1=db['fs.files']
+cursor1=q1.find({})
+for doc in cursor1:
+	if(doc['_id']==ObjectId(ids)):
+		print('found')
+		n=f.split('.')
+		n[0]=n[0]+'(copy)'
+		f=n[0]+'.'+n[1]
+		t=open(f,'w')
+		print('opened')
+		t.write(fs.get(doc['_id']).read())
+		print('written')
+
