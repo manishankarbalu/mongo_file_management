@@ -74,8 +74,8 @@ def upload_file():
 if __name__ == "__main__":
 	port = int(os.environ.get("PORT", 5000))
 	app.debug==True
-	with open('input.json', 'r') as fp:
-		input_handle = json.loads(fp.read())
+#	with open('input.json', 'r') as fp:
+#		input_handle = json.loads(fp.read())
 	app.run(host='0.0.0.0', port=port)
 	
 
